@@ -13,9 +13,7 @@ class Api::ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-
-    puts "Step 1: Create Product"
-
+    
     if @product.save
       render json: @product, status: :created
     else

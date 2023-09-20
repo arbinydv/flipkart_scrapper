@@ -65,8 +65,8 @@ const ProductForm = () => {
       });
 
       toast({
-        title: 'API Call Successful',
-        description: 'Product added.',
+        title: 'Product Added.',
+        description: 'The item was added successfully to the Product List.',
         status: 'success',
         duration: 3000,
         isClosable: true,

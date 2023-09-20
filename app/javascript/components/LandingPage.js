@@ -1,21 +1,23 @@
 import theme from './theme';
 import React, { useState, useEffect } from 'react';
 import { ChakraProvider, Grid, GridItem, VStack, Box, chakra, Image } from '@chakra-ui/react';
-import Header from './Header';
+import ChakraHeader from './Header';
+import ProductList from './ProductList';
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const [productDetails, setProductDetails] = useState(null);
-  const categories = ['Electronics', 'Clothing', 'Home & Kitchen', 'Books', 'Toys']; 
+  const categories = ['Electronics', 'Clothing', 'Home & Kitchen', 'Books', 'Toys'];
 
   // Function to fetch products based on the selected category
   const fetchProductsByCategory = async (category) => {
     try {
       //  API endpoint for fetching products by category
-      const response = await fetch(`/api/products?category=${category}`);
+      const response = await fetch(`/api/products.json?category=${category}`);
       const data = await response.json();
+      console.log("what data is coming here?", data);
       setProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -47,65 +49,34 @@ const Home = () => {
 
   return (
     <ChakraProvider theme={theme}>
-      <Header />
-      <Grid templateColumns='repeat(3, 1fr)' gap={0.5}>
-        <GridItem w='100%' h='auto' bg='green.300'>
-          <VStack spacing={2} align='start' p={4}>
-            <chakra.h2 fontSize='lg' fontWeight='bold'>Categories</chakra.h2>
+      <ChakraHeader />
+      <Grid
+        templateColumns='1fr 3fr' // Adjust the column widths here
+      >
+        <GridItem bg='green.300' borderRadius='md' shadow='md' p={4}>
+          <VStack spacing={2} align='start'>
+            <chakra.h2 fontSize='lg' fontWeight='bold'>
+              Categories
+            </chakra.h2>
             {categories.map((category, index) => (
               <Box
                 key={index}
                 p={2}
                 bg={selectedCategory === category ? 'blue.300' : 'white'}
-                borderRadius='md'
-                shadow='md'
-                width='fit-content'
+                cursor='pointer'
                 onClick={() => {
                   setSelectedCategory(category);
-                  setSelectedProduct(null); 
-                  setProductDetails(null); 
-                }} 
-                cursor='pointer'
+                  setSelectedProduct(null);
+                  setProductDetails(null);
+                }}
               >
                 {category}
               </Box>
             ))}
           </VStack>
         </GridItem>
-        <GridItem w='100%' h='auto' bg='green.500'>
-          <VStack spacing={4} align='start' p={4}>
-            <chakra.h2 fontSize='lg' fontWeight='bold'>Products</chakra.h2>
-            {products.map((product, index) => (
-              <Box
-                key={index}
-                p={2}
-                bg={selectedProduct === product.id ? 'blue.300' : 'white'} 
-                borderRadius='md'
-                shadow='md'
-                width='fit-content'
-                onClick={() => handleProductClick(product.id)} 
-                cursor='pointer'
-              >
-                {product.name}
-              </Box>
-            ))}
-          </VStack>
-        </GridItem>
-        <GridItem w='100%' h='auto' bg='green.700'>
-          {productDetails && (
-            <VStack spacing={4} align='start' p={4}>
-              <chakra.h2 fontSize='lg' fontWeight='bold'>Details </chakra.h2>
-              {productDetails.images.map((image, index) => (
-                <Image
-                  key={index}
-                  src={image.url}
-                  alt={`Image ${index}`}
-                  maxW='200px'
-                />
-              ))}
-              <chakra.p>{productDetails.description}</chakra.p>
-            </VStack>
-          )}
+        <GridItem bg='honeydew'>
+          <ProductList />
         </GridItem>
       </Grid>
     </ChakraProvider>
