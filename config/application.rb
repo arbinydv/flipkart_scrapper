@@ -18,5 +18,7 @@ module FlipkartScrapper
     #
     # config.time_zone = "Central Time (US & Canada)"
     config.eager_load_paths << Rails.root.join('app','lib')
+    config.action_controller.default_protect_from_forgery = true
+
   end
 end

@@ -1,31 +1,79 @@
-import theme from './theme';
+import React, { useState } from 'react';
 import {
   Box,
   Heading,
   Card,
   CardHeader,
   CardBody,
-  Text,
-  CardFooter,
   Button,
   Input,
   FormControl,
   FormLabel,
-} from "@chakra-ui/react";
-import React, { useState } from 'react';
-import { ChakraProvider } from '@chakra-ui/react';
-import Header from './Header';
+  useToast,
+  ChakraProvider,
+} from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import ChakraHeader from './Header';
+import theme from './theme';
 
 const ProductForm = () => {
-  const [apiData, setApiData] = useState(null);
-  const [url, setUrl] = useState('');
+  const [formData, setFormData] = useState({
+    url: '',
+    price: '',
+    title: '',
+    description: '',
+    size: '',
+    mobile_number: '',
+  });
 
+  const toast = useToast();
+  const navigate = useNavigate();
+  const csrfToken = document.querySelector("meta[name=csrf-token]").content;
 
-  const handleApiCall = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!formData.url) {
+      toast({
+        title: 'Error',
+        description: 'URL field cannot be empty.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+      return; 
+    }
+
     try {
-      const response = await fetch(url);
+      const response = await fetch('/api/products.json', {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken,
+        },
+      });
+
+      if (!response.ok) throw Error(response.statusText);
+
       const data = await response.json();
-      setApiData(data);
+      setFormData({
+        ...formData, // Preserve existing form data
+        ...data,     // Update with data from the API response
+      });
+
+      toast({
+        title: 'API Call Successful',
+        description: 'Product added.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+
+      setFormData({ url: '', ...data });
     } catch (error) {
       console.error('Error making API call:', error);
     }
@@ -33,55 +81,46 @@ const ProductForm = () => {
 
   return (
     <ChakraProvider theme={theme}>
-      <Header/>
+      <ChakraHeader/>
       <Box
-        bg="brand.bg"
-        color="brand.text" 
-        minHeight="100vh"  
-        display="flex"     
-        flexDirection="column" 
-        alignItems="center"    
-        justifyContent="center"
-      >
-        <Heading fontFamily="heading" mb={8}>Welcome</Heading>
-        <Card maxW={80} align='center'>
-          <CardHeader>
-            <Heading size='xl'>Product Scrapper</Heading>
-          </CardHeader>
-          <CardBody>
-            <FormControl mt={4}>
+      bg="brand.bg"
+      color="brand.text"
+      minHeight="100vh"
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Card maxW="2xl">
+        <CardHeader>
+          <Heading size="xl">Product Scraper</Heading>
+        </CardHeader>
+        <CardBody>
+          <form onSubmit={handleSubmit}>
+            <FormControl>
               <FormLabel>Enter URL of Product:</FormLabel>
               <Input
                 type="url"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
+                value={formData.url}
+                onChange={(e) => setFormData({ ...formData, url: e.target.value })}
               />
             </FormControl>
-          </CardBody>
-          <CardFooter>
             <Button
+              type="submit"
               bg="brand.bg"
               color="brand.text"
-              px={8}
-              py={4}
-              size='xl'
-              variant='with-shadow'
-              onClick={handleApiCall}
+              mt={4}
+              size="lg"
+              variant="solid"
             >
               Scrape
             </Button>
-          </CardFooter>
-          {apiData && (
-            <CardBody>
-              <Text fontFamily="body">API Response:</Text>
-              <Text fontFamily="body" mt={2}>
-                {JSON.stringify(apiData, null, 2)}
-              </Text>
-            </CardBody>
-          )}
-        </Card>
-      </Box>
-    </ChakraProvider>
+          </form>
+        </CardBody>
+      </Card>
+    </Box>
+      </ChakraProvider>
+
   );
 };
 
