@@ -15,6 +15,7 @@ module FlipkartScrapper
     #
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
+    routes.default_url_options = { host: 'localhost:3000' }
     #
     # config.time_zone = "Central Time (US & Canada)"
     config.autoload_paths << Rails.root.join('lib', 'app')

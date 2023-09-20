@@ -1,10 +1,9 @@
 class Api::ProductsController < ApplicationController
 
   before_action :set_product, only: %i[show update destroy]
-  
   def index
     @products = Product.all
-    render json: @products
+    render json: @products,  methods: :image_urls
   end
 
   def show
@@ -13,7 +12,7 @@ class Api::ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-    
+
     if @product.save
       render json: @product, status: :created
     else
