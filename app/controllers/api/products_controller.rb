@@ -1,4 +1,6 @@
 class Api::ProductsController < ApplicationController
+
+  before_action :set_product, only: %i[show update destroy]
   
   def index
     @products = Product.all
@@ -11,6 +13,8 @@ class Api::ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
+
+    puts "Step 1: Create Product"
 
     if @product.save
       render json: @product, status: :created

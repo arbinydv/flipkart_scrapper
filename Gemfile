@@ -47,6 +47,10 @@ gem 'pry'
 
 gem "annotate",'~> 3.1', '> 3.1.1'
 
+## Handle Background jobs
+gem 'sidekiq'
+
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 

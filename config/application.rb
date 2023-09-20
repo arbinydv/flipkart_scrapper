@@ -17,8 +17,11 @@ module FlipkartScrapper
     # in config/environments, which are processed later.
     #
     # config.time_zone = "Central Time (US & Canada)"
-    config.eager_load_paths << Rails.root.join('app','lib')
+    config.autoload_paths << Rails.root.join('lib', 'app')
     config.action_controller.default_protect_from_forgery = true
+
+    ## sidekiq configuration
+    config.active_job.queue_adapter = :sidekiq
 
   end
 end

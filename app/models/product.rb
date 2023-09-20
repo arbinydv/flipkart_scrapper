@@ -1,15 +1,16 @@
 class Product < ApplicationRecord
   has_and_belongs_to_many :categories
-  
-
+  before_save :scrape_data! 
 
   # save product images 
   def  images
+  end
+  
+  def scrape_data!
+    CrawlerJob.perform_async(self.url)
   end 
 
-  # logic to scrape data 
-  def scrape  
-  end 
+
 end
 
 
