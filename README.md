@@ -12,14 +12,14 @@ Before you embark on this Rails adventure, ensure you have the following tools i
 
 ## 1. Check out the repository 📦
 ```bash
-For instance, if you have Github SSH configured on your machine:
+For instance, if you have GitHub SSH configured on your machine:
 
 git clone git@github.com:arbinydv/flipkart_scrapper.git
 
 ```
-### 2. Getting project up and running  🚀
+### 2. Getting the project up and running  🚀
 * Install Dependencies 
-  * Database : `PostgreSQL` 🐘
+  * Database: `PostgreSQL` 🐘
   * Gems
      * Scraping
         - Nokogiri 🕷️
@@ -49,7 +49,7 @@ git clone git@github.com:arbinydv/flipkart_scrapper.git
     ``` 
     ./bin/dev
     ```
- *  Start Redis for inmemory caching
+ *  Start Redis for in-memory caching
     ``` 
     redis-server
     ```
@@ -57,7 +57,7 @@ git clone git@github.com:arbinydv/flipkart_scrapper.git
     ``` 
     bundle exec sidekiq 
     ```
- Now, your project is up and runnng at http://localhost:3000 🌐
+ Now, your project is up and running at http://localhost:3000 🌐
 #### 3. Dashboard Navigation
 * Dashboard for Products sorted by category 📦🗂️
   ``` 
