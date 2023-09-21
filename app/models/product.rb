@@ -2,8 +2,7 @@ class Product < ApplicationRecord
   has_and_belongs_to_many :categories
   has_many_attached :images, dependent: :destroy 
   after_commit :trigger_scraping_if_url_changed
-  
-  # save product images 
+
   def image_urls
     images.map { |image| Rails.application.routes.url_helpers.rails_blob_url(image, only_path: true) }
   end
@@ -15,17 +14,11 @@ class Product < ApplicationRecord
       scrape_data!
     end
   end
-  
-  
+
   def scrape_data!
     CrawlerJob.perform_in(3.seconds, id)
   end
-
-
 end
-
-
-
 
 # == Schema Information
 #
