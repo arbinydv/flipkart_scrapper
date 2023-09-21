@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation} from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   Box,
   Flex,
@@ -13,14 +13,21 @@ import { AddIcon } from '@chakra-ui/icons';
 import { FaHome } from 'react-icons/fa';
 
 const ChakraHeader = () => {
-  const headerBgColor = "blue.500"; // Define the header background color
+  const headerBgColor = 'blue.500';
+
+  const headerStyles = {
+    position: 'fixed',
+    top: 0,
+    width: '100%',
+    zIndex: 999, // Fix header on the page
+  };
 
   const location = useLocation(); // to conditionally render + Add Product Tab
 
   return (
-    <Box bg={headerBgColor} color="white" p={4}>
+    <Box style={headerStyles} bg={headerBgColor} color="white" p={4}>
       <Flex align="center" justify="space-between">
-        <Link to="/">
+        <Link to="/categories">
           <IconButton
             icon={<FaHome />}
             aria-label="Menu"
@@ -30,14 +37,20 @@ const ChakraHeader = () => {
           />
         </Link>
         <Heading size="md">FlipkartApp</Heading>
-        <Menu bg={headerBgColor}>
-          {location.pathname === '/' ? (
+        <Menu>
+          {location.pathname !== '/products' && (
             <Link to="/products">
-              <MenuButton as={Button} rightIcon={<AddIcon />} bg={headerBgColor} color="white" size="md">
-                Add Product
+              <MenuButton
+                as={Button}
+                rightIcon={<AddIcon />}
+                bg="transparent"
+                color="white"
+                size="md"
+              >
+                Scrape Product
               </MenuButton>
             </Link>
-          ) : null}
+          )}
         </Menu>
       </Flex>
     </Box>

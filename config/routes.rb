@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
 
-  root "home#index"
+  root to: redirect('/categories')  ## redirect to dashboard
 
-  get 'products', to: 'home#index'   ### react to get products
-  get 'product_list', to: 'home#index' ## to show product list 
+  get 'products', to: 'home#index'   ### react to get products scrapper
 
+  get 'categories', to: 'home#index'
+  get 'categories/:id', to: 'home#index'
   namespace :api do
-    resources :products    ### rails..to get the seed data
+    resources :products
+    resources :categories
   end   
 end

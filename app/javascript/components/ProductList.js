@@ -1,133 +1,10 @@
-// import React, { useState, useEffect } from 'react';
-// import {
-//   Box,
-//   Heading,
-//   Card,
-//   CardHeader,
-//   CardBody,
-//   useToast,
-//   ChakraProvider,
-//   Table,
-//   Thead,
-//   Tbody,
-//   Tr,
-//   Th,
-//   Td,
-//   Modal,
-//   ModalOverlay,
-//   ModalContent,
-//   ModalHeader,
-//   ModalCloseButton,
-//   ModalBody,
-//   ModalFooter,
-//   Button,
-// } from '@chakra-ui/react';
-// import { useNavigate } from 'react-router-dom';
-// import theme from './theme';
-
-// const ProductList = () => {
-//   const [products, setProducts] = useState([]);
-//   const [selectedProduct, setSelectedProduct] = useState(null); // To track which product's modal is open
-//   const navigate = useNavigate();
-//   const csrfToken = document.querySelector("meta[name=csrf-token]").content;
-
-//   // Function to fetch products from the API
-//   const fetchProducts = async () => {
-//     try {
-//       const response = await fetch('/api/products.json');
-//       if (!response.ok) throw Error(response.statusText);
-//       const data = await response.json();
-//       setProducts(data);
-//     } catch (error) {
-//       console.error('Error fetching products:', error);
-//     }
-//   };
-
-//   // Fetch products when the component mounts
-//   useEffect(() => {
-//     fetchProducts();
-//   }, []);
-
-//   const openModal = (product) => {
-//     setSelectedProduct(product);
-//   };
-
-//   const closeModal = () => {
-//     setSelectedProduct(null);
-//   };
-
-//   return (
-//     <ChakraProvider theme={theme}>
-//       <Box
-//         bg="brand.bg"
-//         color="brand.text"
-//         minHeight="100vh"
-//         display="flex"
-//         flexDirection="column"
-//         alignItems="center"
-//         justifyContent="center"
-//       >
-//         <Card maxW="2xl">
-//           <CardHeader>
-//             <Heading size="xl">Product List</Heading>
-//           </CardHeader>
-//           <CardBody>
-//             <Table variant="simple" mt={6}>
-//               <Thead>
-//                 <Tr>
-//                   <Th>URL</Th>
-//                   <Th>Details</Th>
-//                 </Tr>
-//               </Thead>
-//               <Tbody>
-//                 {products.map((product, index) => (
-//                   <Tr key={index}>
-//                     <Td>{product.title}</Td>
-//                     <Td>
-//                       <Button onClick={() => openModal(product)}>View Product</Button>
-//                     </Td>
-//                   </Tr>
-//                 ))}
-//               </Tbody>
-//             </Table>
-//           </CardBody>
-//         </Card>
-
-//         {selectedProduct && (
-//           <Modal isOpen={!!selectedProduct} onClose={closeModal}>
-//             <ModalOverlay />
-//             <ModalContent>
-//               <ModalHeader>{selectedProduct.title}</ModalHeader>
-//               <ModalCloseButton />
-//               <ModalBody>
-//                 <a href={selectedProduct.url} target="_blank" rel="noopener noreferrer">
-//                   {selectedProduct.url}
-//                 </a>
-//               </ModalBody>
-//               <ModalFooter>
-//                 <Button colorScheme="blue" mr={3} onClick={closeModal}>
-//                   Close
-//                 </Button>
-//               </ModalFooter>
-//             </ModalContent>
-//           </Modal>
-//         )}
-//       </Box>
-//     </ChakraProvider>
-//   );
-// };
-
-// export default ProductList;
-// ProductList.js
-// ProductList.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Heading,
   Card,
   CardHeader,
   CardBody,
-  useToast,
   ChakraProvider,
   Table,
   Thead,
@@ -137,30 +14,17 @@ import {
   Td,
   Button,
 } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 import theme from './theme';
 import Product from './Product';
-
-const ProductList = () => {
-  const [products, setProducts] = useState([]);
+import {useParams} from 'react-router-dom'
+const ProductList = ({ categories }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const navigate = useNavigate();
-  const csrfToken = document.querySelector("meta[name=csrf-token]").content;
+  const { id } = useParams();
+  const category = categories.find((e) => e.id === Number(id));
+  console.log("categories: " + categories);
+  console.log('category: ' + category);
+ 
 
-  const fetchProducts = async () => {
-    try {
-      const response = await fetch('/api/products.json');
-      if (!response.ok) throw Error(response.statusText);
-      const data = await response.json();
-      setProducts(data.reverse());
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
 
   const openProductDetails = (product) => {
     setSelectedProduct(product);
@@ -194,21 +58,27 @@ const ProductList = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                {products.map((product, index) => (
-                  <Tr key={index}>
-                    <Td>{product.title}</Td>
-                    <Td>
+                {category && category.products.length > 0 ? (
+                  category.products.map((product, index) => (
+                    <Tr key={index}>
+                      <Td>{product.title}</Td>
+                      <Td>
                       <Button onClick={() => openProductDetails(product)}>View Product</Button>
-                    </Td>
+                      </Td>
+                    </Tr>
+                  ))
+                ) : (
+                  <Tr>
+                    <Td colSpan="2">No products available for this category.</Td>
                   </Tr>
-                ))}
+                )}
               </Tbody>
             </Table>
           </CardBody>
         </Card>
 
         {selectedProduct && (
-          <Product product={selectedProduct} onClose={closeProductDetails} />
+          <Product product={selectedProduct} onClose={closeProductDetails} onDelete={closeProductDetails} />
         )}
       </Box>
     </ChakraProvider>
@@ -216,4 +86,3 @@ const ProductList = () => {
 };
 
 export default ProductList;
-
