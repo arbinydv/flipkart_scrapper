@@ -1,5 +1,5 @@
-### ScrapApp 📦✨
-#### React on Rails App to scrape products from Flipkart and show the products sorted by category. 🛒🔍
+### FlipkarApp 📦✨
+#### React on Rails App to scrape products from Flipkart and show and add products sorted by category. 🛒🔍
 
 ## Overview 📋
 This project leverages MVC and CRUD concepts in the Ruby on Rails tech stack to scrape and categorize products.

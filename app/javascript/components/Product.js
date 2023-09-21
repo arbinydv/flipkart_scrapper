@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ChakraProvider,
   Modal,
@@ -13,13 +13,17 @@ import {
   Box,
   IconButton,
   useToast,
-  Link as ChakraLink
+  Link as ChakraLink,
+  Input,
+  Button,
 } from '@chakra-ui/react';
-import { DeleteIcon, EditIcon, CloseIcon } from '@chakra-ui/icons'; 
+import { DeleteIcon, EditIcon, CloseIcon } from '@chakra-ui/icons';
 
 const Product = ({ product, onClose }) => {
-
   const toast = useToast();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedUrl, setEditedUrl] = useState(product.url);
+
   const deleteProduct = async (productId) => {
     const sure = window.confirm('Are you sure?');
 
@@ -32,7 +36,7 @@ const Product = ({ product, onClose }) => {
         if (!response.ok) throw Error(response.statusText);
         toast({
           title: 'Product Deleted.',
-          description: 'The item was added successfully deleted.',
+          description: 'The item was successfully deleted.',
           status: 'success',
           duration: 3000,
           isClosable: true,
@@ -44,8 +48,34 @@ const Product = ({ product, onClose }) => {
       }
     }
   };
+
   const handleEdit = () => {
-    alert('Editing this')
+    setIsEditing(true);
+  };
+
+  const updatedProduct = async () => {
+    try {
+      const response = await window.fetch(`/api/products/${product.id}.json`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url: editedUrl }),
+      });
+
+      if (!response.ok) throw Error(response.statusText);
+      toast({
+        title: 'URL Updated.',
+        description: 'The URL has been successfully updated.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error updating URL:', error);
+    }
   };
 
   return (
@@ -53,46 +83,66 @@ const Product = ({ product, onClose }) => {
       <Modal isOpen={true} onClose={onClose} size="70%">
         <ModalOverlay />
         <ModalContent>
-        <ModalHeader>
-          <Flex justifyContent="space-between" alignItems="center">
-            <span>{product.title}</span>
-            <Spacer />
+          <ModalHeader>
+            <Flex justifyContent="space-between" alignItems="center">
+              <span>{product.title}</span>
+              <Spacer />
               <IconButton
                 colorScheme="red"
                 size="sm"
                 aria-label="Delete"
                 icon={<DeleteIcon />}
-                onClick={() => deleteProduct(product.id)} // the function gets called when delete button is triggered not while rendering.
+                onClick={() => deleteProduct(product.id)}
                 mr={8}
               />
-            <IconButton
-                icon={<CloseIcon />} // You can use your custom close icon here
+              <IconButton
+                icon={<CloseIcon />}
                 onClick={onClose}
                 aria-label="Close"
                 colorScheme="blue"
                 size="sm"
               />
-          </Flex>
-        </ModalHeader>
+            </Flex>
+          </ModalHeader>
           <ModalBody>
             <List spacing={3}>
               <ListItem>
                 <strong>URL:</strong>
-                <ChakraLink href={product.url} target="_blank" rel="noopener noreferrer" color="blue.500">
-                  {product.url}
-                </ChakraLink>
-                <div>
-                <IconButton
-                  colorScheme="blue"
-                  size="sm"
-                  aria-label="Edit"
-                  icon={<EditIcon />}
-                  onClick={handleEdit}
-                />
-                </div>
-           
+                {isEditing ? (
+                  <>
+                    <Input
+                      value={editedUrl}
+                      onChange={(e) => setEditedUrl(e.target.value)}
+                      mr={2}
+                    />
+                    <Button
+                      colorScheme="blue"
+                      size="sm"
+                      onClick={updatedProduct}
+                    >
+                      Save
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <ChakraLink
+                      href={editedUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      color="blue.500"
+                    >
+                      {editedUrl}
+                    </ChakraLink>
+                    <IconButton
+                      colorScheme="blue"
+                      size="sm"
+                      aria-label="Edit"
+                      icon={<EditIcon />}
+                      onClick={handleEdit}
+                    />
+                  </>
+                )}
               </ListItem>
-   
               <ListItem>
                 <strong>Title:</strong> {product.title}
               </ListItem>

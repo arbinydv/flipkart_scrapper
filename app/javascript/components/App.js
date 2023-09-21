@@ -4,8 +4,6 @@ import LandingPage from './LandingPage';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from './theme';
 import ProductForm from './ProductForm';
-import ProductList from './ProductList';
-import CategoryList from './CategoryList';
 
 const App = () => (
   <ChakraProvider theme={theme}>

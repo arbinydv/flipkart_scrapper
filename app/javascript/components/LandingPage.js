@@ -5,12 +5,10 @@ import ChakraHeader from './Header';
 import ProductList from './ProductList';
 import CategoryList from './CategoryList';
 import { Routes, Route } from 'react-router-dom';
+import Welcome from './Welcome';
 
 const LandingPage = () => {
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [productDetails, setProductDetails] = useState(null);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -31,7 +29,7 @@ const LandingPage = () => {
   return (
     <ChakraProvider theme={theme}>
       <ChakraHeader />
-      <Box paddingTop="60px">
+      <Box paddingTop="70px">
         <Grid templateColumns='1fr 3fr'>
             <CategoryList
               categories={categories}
@@ -39,10 +37,8 @@ const LandingPage = () => {
           <GridItem bg='honeydew'>
           <Routes>
            <Route path=":id/*" element={<ProductList categories={categories} />} />
+           <Route path="/" element={<Welcome/>} />
           </Routes>
-            <ProductList
-            categories={categories}
-            />
           </GridItem>
         </Grid>
       </Box>

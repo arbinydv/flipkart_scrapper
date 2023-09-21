@@ -15,7 +15,6 @@ module Scraper
     end
 
     def scrape_and_save!
-      ## logic to handle product update and other things
       category = Category.find_or_create_by(name: scraped_data[:category])
       @product.categories << category
      

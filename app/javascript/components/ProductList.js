@@ -21,10 +21,6 @@ const ProductList = ({ categories }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const { id } = useParams();
   const category = categories.find((e) => e.id === Number(id));
-  console.log("categories: " + categories);
-  console.log('category: ' + category);
- 
-
 
   const openProductDetails = (product) => {
     setSelectedProduct(product);
@@ -86,3 +82,4 @@ const ProductList = ({ categories }) => {
 };
 
 export default ProductList;
+

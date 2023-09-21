@@ -19,10 +19,10 @@ const ChakraHeader = () => {
     position: 'fixed',
     top: 0,
     width: '100%',
-    zIndex: 999, // Fix header on the page
+    zIndex: 999,
   };
 
-  const location = useLocation(); // to conditionally render + Add Product Tab
+  const location = useLocation();
 
   return (
     <Box style={headerStyles} bg={headerBgColor} color="white" p={4}>

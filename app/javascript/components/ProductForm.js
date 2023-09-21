@@ -55,30 +55,38 @@ const ProductForm = () => {
           'X-CSRF-Token': csrfToken,
         },
       });
-
-      if (!response.ok) throw Error(response.statusText);
-
+    
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+    
       const data = await response.json();
       setFormData({
         ...formData, // Preserve existing form data
         ...data,     // Update with data from the API response
       });
-
       toast({
         title: 'Product Added.',
-        description: 'The item was added successfully to the Product List.',
+        description: 'The item is added to Product Scrapper Inventory.',
         status: 'success',
         duration: 3000,
         isClosable: true,
         position: 'top-right',
       });
-
+      navigate('/categories')
       setFormData({ url: '', ...data });
-    } catch (error) {
-      console.error('Error making API call:', error);
+    } catch (error) {    
+      toast({
+        title: 'Error',
+        description: 'An error occurred while adding the product.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
     }
   };
-
+    
   return (
     <ChakraProvider theme={theme}>
       <ChakraHeader/>
@@ -121,7 +129,6 @@ const ProductForm = () => {
     </Box>
       </ChakraProvider>
 
-  );
-};
+  )};
 
 export default ProductForm;

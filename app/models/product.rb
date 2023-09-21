@@ -1,6 +1,6 @@
 class Product < ApplicationRecord
   has_and_belongs_to_many :categories
-  has_many_attached :images, dependent: :destroy   ## attach product images 
+  has_many_attached :images, dependent: :destroy 
   after_commit :trigger_scraping_if_url_changed
   
   # save product images 

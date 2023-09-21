@@ -1,10 +1,10 @@
 class Api::CategoriesController < ApplicationController
-  before_action :assign_category, only: %i[show update destroy]
+  before_action :assign_category, only: %i[show update]
   
   def index
     @categories = Category.all
     render json: @categories, :include => {:products => {:methods => :image_urls,
-      :only => [:id, :url, :title, :size, :description, :price, :mobile_number, :product_images]}}
+      :only => [:id, :url, :title, :size, :description, :price, :mobile_number, :image_urls]}}
   end
 
   def show

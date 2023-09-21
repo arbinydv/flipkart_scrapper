@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GridItem, VStack, chakra, List, ListItem, Box, ChakraProvider } from '@chakra-ui/react';
-import { NavLink } from 'react-router-dom'; // Import NavLink from React Router
+import { NavLink } from 'react-router-dom';
 
 const CategoryList = ({ categories }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const filteredCategories = categories.filter((category) => category.name);
+  const [filteredCategories, setFilteredCategories] = useState([]);
+
+  // Filter categories that have products
+  useEffect(() => {
+    const filtered = categories.filter(category => category.products.length > 0);
+    setFilteredCategories(filtered);
+  }, [categories]);
 
   return (
     <ChakraProvider>
@@ -16,9 +22,8 @@ const CategoryList = ({ categories }) => {
           <List spacing={2} alignItems="start">
             {filteredCategories.map((category, index) => (
               <ListItem key={index} p={2}>
-                {/* Wrap the category name with NavLink */}
                 <NavLink
-                  to={`/categories/${category.id}`} // Define the link path
+                  to={`/categories/${category.id}`}
                 >
                   <Box
                     bg={selectedCategory === category.name ? 'blue.300' : 'white'}
@@ -40,4 +45,3 @@ const CategoryList = ({ categories }) => {
 };
 
 export default CategoryList;
-
