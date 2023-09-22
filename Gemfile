@@ -50,6 +50,9 @@ gem "annotate",'~> 3.1', '> 3.1.1'
 ## Handle Background jobs
 gem 'sidekiq'
 
+gem 'rspec', '~> 3.0', group: :test
+gem 'factory_bot_rails'
+gem 'webmock'
 
 # Use Sass to process CSS
 # gem "sassc-rails"
@@ -77,5 +80,6 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem 'rspec-rails'
 
 end

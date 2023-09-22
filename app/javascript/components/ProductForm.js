@@ -73,7 +73,10 @@ const ProductForm = () => {
         isClosable: true,
         position: 'top-right',
       });
-      navigate('/categories')
+    
+      setTimeout(() => {
+        navigate('/categories')
+      }, 3800);
       setFormData({ url: '', ...data });
     } catch (error) {    
       toast({
