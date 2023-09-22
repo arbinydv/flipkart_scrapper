@@ -1,5 +1,7 @@
 ### FlipkarApp 📦✨
 #### React on Rails App to scrape products from Flipkart and show and add products sorted by category. 🛒🔍
+<img width="1512" alt="image" src="https://github.com/arbinydv/flipkart_scrapper/assets/106106915/50d12837-81ef-45f4-b8bb-8a459a383f46">
+
 
 ## Overview 📋
 This project leverages MVC and CRUD concepts in the Ruby on Rails tech stack to scrape and categorize products.
