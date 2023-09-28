@@ -25,9 +25,6 @@ const Product = ({ product, onClose }) => {
   const [editedUrl, setEditedUrl] = useState(product.url);
 
   const deleteProduct = async (productId) => {
-    const sure = window.confirm('Are you sure?');
-
-    if (sure) {
       try {
         const response = await window.fetch(`/api/products/${productId}.json`, {
           method: 'DELETE',
@@ -41,12 +38,10 @@ const Product = ({ product, onClose }) => {
           duration: 3000,
           isClosable: true,
           position: 'top-right',
-        });
-        onClose();
+        })
       } catch (error) {
         console.error('Error deleting product:', error);
       }
-    }
   };
 
   const handleEdit = () => {
@@ -92,7 +87,12 @@ const Product = ({ product, onClose }) => {
                 size="sm"
                 aria-label="Delete"
                 icon={<DeleteIcon />}
-                onClick={() => deleteProduct(product.id)}
+                onClick={() =>{
+
+                  deleteProduct(product.id)
+                  onClose()
+                }
+                }
                 mr={8}
               />
               <IconButton
