@@ -25,12 +25,15 @@ end
 # Table name: products
 #
 #  id            :bigint           not null, primary key
-#  url           :string
-#  title         :string
 #  description   :string
-#  price         :string
 #  mobile_number :string
+#  price         :string
+#  ratings       :string
+#  reviews       :string
 #  size          :string
+#  title         :string
+#  total_rating  :string
+#  url           :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
