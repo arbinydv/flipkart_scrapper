@@ -67,6 +67,6 @@ git clone git@github.com:arbinydv/flipkart_scrapper.git
   ```
 * Scrape Product and Add to Database 🔄🛍️
   ```
-    localhost:3000\products
+    localhost:3000/products
   ```
 Feel free to explore and enjoy ScrapApp! 🎉

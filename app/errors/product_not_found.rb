@@ -1,2 +1,0 @@
-class ProductNotFound < StandardError
-end
