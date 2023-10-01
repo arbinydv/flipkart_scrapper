@@ -1,0 +1,2 @@
+class ProductNotFound < StandardError
+end

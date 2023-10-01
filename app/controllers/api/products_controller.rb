@@ -11,9 +11,10 @@ class Api::ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.new(product_params)
+    @product = Product.upsert_by_url(product_params[:url], product_params.except(:url))  # update or insert product into database
+    # @product = Product.new(product_params)
 
-    if @product.save
+    if @product.valid?
       render json: @product, status: :created
     else
       render json: { errors: @product.errors.full_messages }, status: :unprocessable_entity

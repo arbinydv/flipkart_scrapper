@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_28_090105) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_01_113625) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -66,6 +66,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_090105) do
     t.string "ratings"
     t.string "reviews"
     t.string "total_rating"
+    t.index ["url"], name: "index_products_on_url", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

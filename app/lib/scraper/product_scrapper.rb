@@ -32,9 +32,9 @@ module Scraper
       description = @scrapper.css('._1AN87F').text.presence || @scrapper.xpath('//p[//*[contains(text(), "Description")]]').text
       price = @scrapper.css('._30jeq3._16Jk6d').text
       size = @scrapper.css('._3Oikkn._3_ezix._2KarXJ._31hAvz').text
-      ratings =  @scrapper.css('._3LWZlK').first.text
-      total_rating = @scrapper.css('._2_R_DZ').map(&:text)[1].gsub(/[()]/, '')
-      reviews = @scrapper.css('._2_R_DZ').map(&:text)[2].gsub(/[()]/, '')
+      ratings =  @scrapper.css('._3LWZlK').first&.text
+      total_rating = @scrapper.css('._2_R_DZ').map(&:text)[1]&.gsub(/[()]/, '')
+      reviews = @scrapper.css('._2_R_DZ').map(&:text)[2]&.gsub(/[()]/, '')
       images = @scrapper.css('._2FHWw4').css('img').map { |link| link['src'] }
 
       {
