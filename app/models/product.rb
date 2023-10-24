@@ -18,15 +18,6 @@ class Product < ApplicationRecord
   def scrape_data!
     CrawlerJob.perform_in(3.seconds, id)
   end
-
-  class << self
-    def upsert_by_url(url, attributes)
-      product = find_or_initialize_by(url: url)
-      product.attributes = attributes
-      product.save
-      product
-    end
-  end
 end
 
 
@@ -46,8 +37,4 @@ end
 #  url           :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#
-# Indexes
-#
-#  index_products_on_url  (url) UNIQUE
 #

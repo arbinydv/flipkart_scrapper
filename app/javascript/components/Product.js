@@ -159,15 +159,6 @@ const Product = ({ product, onClose }) => {
                 <strong>Size:</strong> {product.size}
               </ListItem>
               <ListItem>
-                <strong>Star:</strong> {product.ratings}
-              </ListItem>
-              <ListItem>
-                <strong>Ratings:</strong> {product.total_rating}
-              </ListItem>
-              <ListItem>
-                <strong>Reviews:</strong> {product.reviews}
-              </ListItem>
-              <ListItem>
               <Flex>
                   {product.image_urls &&
                     product.image_urls.map((image, index) => (

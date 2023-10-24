@@ -4,7 +4,7 @@ class Api::CategoriesController < ApplicationController
   def index
     @categories = Category.all
     render json: @categories, :include => {:products => {:methods => :image_urls,
-      :only => [:id, :url, :title, :size, :description, :price, :mobile_number, :ratings, :reviews, :total_rating, :image_urls]}}
+      :only => [:id, :url, :title, :size, :description, :price, :mobile_number, :image_urls]}}
   end
 
   def show

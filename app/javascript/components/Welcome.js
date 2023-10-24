@@ -38,7 +38,7 @@ const Welcome = () => {
             <FaSmile size={70}/> 
           </AlertIcon>
           <AlertTitle mt={4} mb={1} fontSize="lg">
-            Hello Fello,
+            Hello there,
           </AlertTitle>
           <AlertDescription maxWidth="sm">
             Please select a category to display products.
